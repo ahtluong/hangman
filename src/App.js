@@ -5,20 +5,30 @@ import LifeLeft from './components/LifeLeft';
 
 class App extends Component {
   state = {
-    lifeLeft: 6
+    lifeLeft: 6,
+    characterClick: ''
   };
 
+  checkResult(result) {
+    if (!result) this.decrementLifeLeft();
+  } 
+
+  getAlphabetClick(character) {
+    this.setState({ characterClick: character})
+  }
+
   decrementLifeLeft() {
-    console.log(this);
     let lifeLeft = this.state.lifeLeft;  
-    this.setState({ lifeLeft: lifeLeft - 1 });
+    this.setState({ lifeLeft: lifeLeft - 1, characterClick: '' });
   }
 
   render() {
     return (
       <div>
-        <Word />
-        <Alphabet decrementLifeLeft={this.decrementLifeLeft.bind(this)} />
+        <Word guessCharacter={this.state.characterClick} getResult={this.checkResult.bind(this)} />
+        <Alphabet
+          onClick={this.getAlphabetClick.bind(this)}
+        />
         <LifeLeft lifeLeft={this.state.lifeLeft} />
       </div>
     );
